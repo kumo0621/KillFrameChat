@@ -1,0 +1,12 @@
+name: KillFrameChat
+version: '${project.version}'
+main: com.github.kumo0621.killframechat.KillFrameChat
+api-version: 1.16
+commands:
+  KillFrameChat:
+    aliases: fc
+    permission: KillFrameChat
+
+permissions:
+  KillFrameChat:
+    default: true
