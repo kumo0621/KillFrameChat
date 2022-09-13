@@ -1,6 +1,5 @@
 package com.github.kumo0621.killframechat;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -8,13 +7,9 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -50,14 +45,20 @@ public final class KillFrameChat extends JavaPlugin implements org.bukkit.event.
             if (sender instanceof Player) {
                 if (args.length > 0) {
                     String chat = args[0];
-                    Location location = map.get(((Player) sender).getUniqueId());
-                    @NotNull ArmorStand entity = location.getWorld().spawn(location, ArmorStand.class);
-                    entity.setGravity(false);
-                    entity.setInvisible(true);
-                    entity.setInvulnerable(true);
-                    entity.setCustomNameVisible(true);
-                    entity.setMarker(true);
-                    entity.setCustomName(chat);
+                    UUID id = ((Player) sender).getUniqueId();
+                    Location location = map.get(id);
+                    if (location != null) {
+                        @NotNull ArmorStand entity = location.getWorld().spawn(location, ArmorStand.class);
+                        entity.setGravity(false);
+                        entity.setInvisible(true);
+                        entity.setInvulnerable(true);
+                        entity.setCustomNameVisible(true);
+                        entity.setCustomName(chat);
+                        map.remove(id);
+                        sender.sendMessage("死亡した地点にメッセージを残しました。");
+                    } else {
+                        sender.sendMessage("死んでません。");
+                    }
                 }
             }
         }
