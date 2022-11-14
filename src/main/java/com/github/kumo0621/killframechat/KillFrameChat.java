@@ -49,11 +49,12 @@ public final class KillFrameChat extends JavaPlugin implements org.bukkit.event.
                     Location location = map.get(id);
                     if (location != null) {
                         @NotNull ArmorStand entity = location.getWorld().spawn(location, ArmorStand.class);
+                        @NotNull String name = sender.getName();
                         entity.setGravity(false);
                         entity.setInvisible(true);
                         entity.setInvulnerable(true);
                         entity.setCustomNameVisible(true);
-                        entity.setCustomName(chat);
+                        entity.setCustomName(chat+" by "+name);
                         map.remove(id);
                         sender.sendMessage("死亡した地点にメッセージを残しました。");
                     } else {
